@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sorteio - Startup Vale</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+    html, body {
+      height: 100%;
+    }
+    body {
+      background-color: #DDD;
+      font-family: "Helvetica Neue", Helvetica, sans-serif;
+    }
+    ol, ul {
+      font-size: 22px;
+      list-style-position: inside;
+    }
+    ol {
+      list-style-type: decimal-leading-zero;
+    }
+    ol li {
+      margin-bottom: 8px;
+    }
+    .raffle-list li {
+      background-color: #FFF;
+      color: #2980b9;
+      font-weight: 700;
+      padding: 8px;
+    }
+    h1 {
+      color: #1b2348;
+      /*display: inline-block;*/
+      margin-bottom: 20px;
+      padding: 10px;
+    }
+    .col {
+      background-color: #EEE;
+      float: left;
+      min-height: 90%;
+      margin: 2%;
+      padding: 40px;
+      width: 46%;
+    }
+    .raffle {
+      cursor: pointer;
+      color: #EFEFEF;
+      background-color: #7cbe42;
+      text-align: center;
+      text-shadow: 1px 1px 2px #000;
+    }
+    .raffle:hover {
+      background-color: #6CBE42;
+      color: #FFF;
+    }
+  </style>
+</head>
+<body>
+  <div class="col">
+    <h1>Participantes - Startup Vale</h1>
+    <ul class="awards"></ul>
+  </div>
+  <div class="col">
+    <h1 class="raffle">Fazer sorteio...</h1>
+    <ol class="raffle-list"></ol>
+  </div>
+  <script src="awards.js"></script>
+  <script>
+    var pessoasList = document.querySelector(".awards");
+    var sorteadosList = document.querySelector(".raffle-list");
+    var sortear = document.querySelector(".raffle");
+
+    function pessoasListUpdate(){
+      pessoas.forEach(function(el) {
+        var li = document.createElement("li");
+        li.innerHTML = el;
+        pessoasList.appendChild(li);
+      });
+    }
+
+    pessoasListUpdate();
+
+    sortear.addEventListener("click", function(ev) {
+      var that = this;
+      var oldText = this.innerText;
+      var randomIndex = Math.floor(Math.random() * pessoas.length);
+
+      var pessoaSorteada = pessoas[randomIndex];
+      var li = document.createElement("li");
+      li.innerHTML = pessoaSorteada;
+
+      pessoas.splice(pessoas.indexOf(pessoaSorteada), 1);
+      pessoasList.innerHTML = "";
+
+      pessoasListUpdate();
+
+      sorteadosList.appendChild(li);
+
+      that.innerHTML = "Sorteado!";
+      that.style.backgroundColor = "#f69697";
+      that.style.color = "#FFF";
+
+      setTimeout(function() {
+        that.innerText = oldText;
+        that.removeAttribute("style");
+      }, 600);
+
+      ev.preventDefault();
+    }, false);
+  </script>
+</body>
+</html>
